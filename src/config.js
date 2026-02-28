@@ -9,11 +9,11 @@ const isProd = import.meta.env.PROD;
 const LOCAL_IP = '10.31.187.240'; // Updated to your current laptop IP for Android testing
 
 // 1. URL for the hosted backend (e.g., Render, Railway)
-const PRODUCTION_BACKEND_URL = 'https://urban-pulse-backend.onrender.com';
+const PRODUCTION_BACKEND_URL = 'https://hackgenx-dsdj.onrender.com';
 
 // 2. Base URL for API calls
 export const API_BASE_URL = isProd
-    ? '' // In production, we'll use Netlify redirects/proxies defined in netlify.toml
+    ? '/api' // Use the Netlify proxy we configured in netlify.toml
     : `http://${LOCAL_IP}:5003`; // local dev environment uses port 5003
 
 // 3. URL for Socket.io (Heatmap data)

@@ -9,8 +9,7 @@
 
 [[redirects]]
   # This acts as a production proxy so that '/api/...' calls reach your backend.
-  # Replace 'https://urban-pulse-backend.onrender.com' with your actual Render/Railway URL.
   from = "/api/*"
-  to = "https://urban-pulse-backend.onrender.com/api/:splat"
+  to = "https://hackgenx-dsdj.onrender.com/api/:splat"
   status = 200
   force = true
