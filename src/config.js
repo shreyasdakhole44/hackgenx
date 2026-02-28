@@ -13,7 +13,7 @@ const PRODUCTION_BACKEND_URL = 'https://hackgenx-dsdj.onrender.com';
 
 // 2. Base URL for API calls
 export const API_BASE_URL = isProd
-    ? '/api' // Use the Netlify proxy we configured in netlify.toml
+    ? '' // In production, we'll use Netlify redirects/proxies defined in netlify.toml
     : `http://${LOCAL_IP}:5003`; // local dev environment uses port 5003
 
 // 3. URL for Socket.io (Heatmap data)
