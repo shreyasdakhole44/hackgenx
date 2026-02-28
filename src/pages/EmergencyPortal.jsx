@@ -4,6 +4,7 @@ import { ShieldAlert, AlertCircle, UserX, Send, CheckCircle2, Upload, MapPin, Lo
 import { useLocation } from 'react-router-dom';
 import TripleHeader from '../components/TripleHeader';
 import Footer from '../components/Footer';
+import { API_BASE_URL } from '../config';
 
 const EmergencyPortal = () => {
     const query = new URLSearchParams(useLocation().search);
@@ -24,7 +25,7 @@ const EmergencyPortal = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await fetch('/api/emergency', {
+            const res = await fetch(`${API_BASE_URL}/api/emergency`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)

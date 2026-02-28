@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, ChevronRight, MessageSquare, Share2, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 const CorporateDecisions = () => {
     const [decisions, setDecisions] = useState([]);
@@ -9,7 +10,7 @@ const CorporateDecisions = () => {
     useEffect(() => {
         const fetchDecisions = async () => {
             try {
-                const res = await fetch('/api/news');
+                const res = await fetch(`${API_BASE_URL}/api/news`);
                 const data = await res.json();
                 // Filter for "Corporate" or "Important" news items to represent decisions
                 const filtered = data.filter(item =>

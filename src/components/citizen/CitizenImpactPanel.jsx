@@ -11,6 +11,7 @@ import {
     ShieldCheck,
     TrendingUp
 } from 'lucide-react';
+import { API_BASE_URL } from '../../config';
 
 const CitizenImpactPanel = () => {
     const [credits, setCredits] = useState(null);
@@ -23,7 +24,7 @@ const CitizenImpactPanel = () => {
                 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
                 if (!userInfo || !userInfo.token) return;
 
-                const res = await fetch('/api/impact/credits', {
+                const res = await fetch(`${API_BASE_URL}/api/impact/credits`, {
                     headers: {
                         'Authorization': `Bearer ${userInfo.token}`
                     }
@@ -48,7 +49,7 @@ const CitizenImpactPanel = () => {
     const handleVote = async (option) => {
         try {
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            const res = await fetch('/api/impact/vote', {
+            const res = await fetch(`${API_BASE_URL}/api/impact/vote`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -58,7 +59,7 @@ const CitizenImpactPanel = () => {
             });
             if (res.ok) {
                 // Refresh credit data
-                const cRes = await fetch('/api/impact/credits', {
+                const cRes = await fetch(`${API_BASE_URL}/api/impact/credits`, {
                     headers: { 'Authorization': `Bearer ${userInfo.token}` }
                 });
                 const cData = await cRes.json();
@@ -76,7 +77,7 @@ const CitizenImpactPanel = () => {
     const handleInvest = async (category, serviceName, amount = 1) => {
         try {
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            const res = await fetch('/api/impact/spend', {
+            const res = await fetch(`${API_BASE_URL}/api/impact/spend`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,7 +88,7 @@ const CitizenImpactPanel = () => {
 
             if (res.ok) {
                 // Refresh
-                const cRes = await fetch('/api/impact/credits', {
+                const cRes = await fetch(`${API_BASE_URL}/api/impact/credits`, {
                     headers: { 'Authorization': `Bearer ${userInfo.token}` }
                 });
                 const cData = await cRes.json();

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Target, TrendingUp, Users, Info, Calculator } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 const TransparencyScore = () => {
     const [data, setData] = useState(null);
@@ -9,7 +10,7 @@ const TransparencyScore = () => {
     useEffect(() => {
         const fetchMetrics = async () => {
             try {
-                const res = await fetch('/api/impact/transparency-metrics');
+                const res = await fetch(`${API_BASE_URL}/api/impact/transparency-metrics`);
                 const result = await res.json();
                 setData(result);
                 setLoading(false);

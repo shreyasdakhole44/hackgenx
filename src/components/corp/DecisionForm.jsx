@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Gavel, Sparkles, Building, Send, AlertTriangle, CheckCircle2, RefreshCw } from 'lucide-react';
+import { API_BASE_URL } from '../../config';
 
 const DecisionForm = () => {
     const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ const DecisionForm = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await fetch('/api/news', {
+            const res = await fetch(`${API_BASE_URL}/api/news`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

@@ -13,6 +13,7 @@ import {
     CheckCircle,
     Search
 } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 import CorpSidebar from '../components/corp/CorpSidebar';
 import CorpHeader from '../components/corp/CorpHeader';
@@ -35,8 +36,8 @@ const CorporationPortal = () => {
     const fetchData = async () => {
         try {
             const [gRes, sRes] = await Promise.all([
-                fetch('/api/grievances'),
-                fetch('/api/grievances/stats/departments')
+                fetch(`${API_BASE_URL}/api/grievances`),
+                fetch(`${API_BASE_URL}/api/grievances/stats/departments`)
             ]);
             const gData = await gRes.json();
             const sData = await sRes.json();
@@ -56,7 +57,7 @@ const CorporationPortal = () => {
 
     const handleSolveGrievance = async (grievanceId) => {
         try {
-            const res = await fetch(`/api/grievances/${grievanceId}/status`, {
+            const res = await fetch(`${API_BASE_URL}/api/grievances/${grievanceId}/status`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: 'Resolved' })
@@ -263,7 +264,7 @@ const EmergencyManager = () => {
     const fetchEmergencies = async () => {
         try {
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            const res = await fetch('/api/emergency', {
+            const res = await fetch(`${API_BASE_URL}/api/emergency`, {
                 headers: {
                     'Authorization': userInfo ? `Bearer ${userInfo.token}` : ''
                 }
@@ -285,7 +286,7 @@ const EmergencyManager = () => {
     const handleAction = async (id, status) => {
         try {
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            await fetch(`/api/emergency/${id}`, {
+            await fetch(`${API_BASE_URL}/api/emergency/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

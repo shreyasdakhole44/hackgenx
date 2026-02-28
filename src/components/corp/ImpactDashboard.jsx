@@ -11,6 +11,7 @@ import {
     Map as MapIcon
 } from 'lucide-react';
 import CityPulseHeatmap from '../CityPulseHeatmap';
+import { API_BASE_URL } from '../../config';
 
 const ImpactDashboard = () => {
     const [heatmapData, setHeatmapData] = useState([]);
@@ -24,7 +25,7 @@ const ImpactDashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch('/api/impact/heatmap');
+                const res = await fetch(`${API_BASE_URL}/api/impact/heatmap`);
                 const data = await res.json();
                 setHeatmapData(data);
 

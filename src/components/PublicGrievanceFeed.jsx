@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ListFilter, MapPin, Clock, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 const PublicGrievanceFeed = () => {
     const [feed, setFeed] = useState([]);
@@ -9,7 +10,7 @@ const PublicGrievanceFeed = () => {
     const fetchFeed = async () => {
         setLoading(true);
         try {
-            const res = await fetch('/api/impact/public-feed');
+            const res = await fetch(`${API_BASE_URL}/api/impact/public-feed`);
             const data = await res.json();
             setFeed(data);
             setLoading(false);

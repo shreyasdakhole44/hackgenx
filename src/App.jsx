@@ -25,6 +25,11 @@ import RewardRedemption from './pages/RewardRedemption';
 
 import Navbar from './components/Navbar';
 import FloatingAnnouncement from './components/FloatingAnnouncement';
+import axios from 'axios';
+import { API_BASE_URL } from './config';
+
+// Set the global API URL
+axios.defaults.baseURL = API_BASE_URL;
 
 function App() {
   return (

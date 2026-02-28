@@ -6,6 +6,8 @@ import { ShieldAlert, Zap, Thermometer, Radio, Navigation, Crosshair, Maximize2,
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+import { SOCKET_URL } from '../config';
+
 // Master Coordinate Baseline - Amravati, Maharashtra
 const AMRAVATI_CENTER = [20.9320, 77.7523];
 
@@ -106,7 +108,7 @@ const CityPulseHeatmap = ({ data: initialData = [], height = "600px" }) => {
 
     useEffect(() => {
         // Initialize Socket.io
-        socketRef.current = io('http://localhost:5001');
+        socketRef.current = io(SOCKET_URL);
 
         socketRef.current.on('connect', () => {
             console.log('🔗 Connected to CityPulse Heatmap Relay');

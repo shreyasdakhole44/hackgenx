@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Award, Clock, ShieldCheck, Info, ChevronRight, Hash, CheckCircle2, MapPin, RefreshCw } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 const DecisionOfTheWeek = () => {
     const [decision, setDecision] = useState(null);
@@ -9,7 +10,7 @@ const DecisionOfTheWeek = () => {
     useEffect(() => {
         const fetchDecision = async () => {
             try {
-                const res = await fetch('/api/impact/decision-of-the-week');
+                const res = await fetch(`${API_BASE_URL}/api/impact/decision-of-the-week`);
                 const data = await res.json();
                 if (res.ok) {
                     setDecision(data);

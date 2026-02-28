@@ -1,0 +1,16 @@
+# netlify.toml
+# Urban Pulse Netlify Configuration
+
+[[redirects]]
+  # This section ensures that React Router (SPA) works when you refresh the page.
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  # This acts as a production proxy so that '/api/...' calls reach your backend.
+  # Replace 'https://urban-pulse-backend.onrender.com' with your actual Render/Railway URL.
+  from = "/api/*"
+  to = "https://urban-pulse-backend.onrender.com/api/:splat"
+  status = 200
+  force = true

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { HelpCircle, Mail, ChevronRight, AlertCircle, FileText, Send, CheckCircle2, ShieldCheck, Upload, Info } from 'lucide-react';
 import TripleHeader from '../components/TripleHeader';
 import Footer from '../components/Footer';
+import { API_BASE_URL } from '../config';
 
 const HelpContact = () => {
     const [activeTab, setActiveTab] = useState('help');
@@ -23,7 +24,7 @@ const HelpContact = () => {
     useEffect(() => {
         const fetchGrievances = async () => {
             try {
-                const res = await fetch(`/api/support/user-grievances/${userId}`);
+                const res = await fetch(`${API_BASE_URL}/api/support/user-grievances/${userId}`);
                 const data = await res.json();
                 setGrievances(data);
             } catch (err) {
@@ -37,7 +38,7 @@ const HelpContact = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await fetch('http://localhost:5001/api/support', {
+            const res = await fetch(`${API_BASE_URL}/api/support`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

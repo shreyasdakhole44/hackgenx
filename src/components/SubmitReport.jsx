@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import * as exifr from 'exifr';
-import { Upload, CheckCircle, AlertCircle, MapPin, Clock } from 'lucide-react';
+import { Upload, CheckCircle, AlertCircle, MapPin, Clock, Camera } from 'lucide-react';
 import axios from 'axios';
+import { Camera as CapCamera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Geolocation } from '@capacitor/geolocation';
 
 const SubmitReport = () => {
     const [file, setFile] = useState(null);
@@ -30,19 +32,33 @@ const SubmitReport = () => {
             }));
         }
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((pos) => {
+        const getInitialLocation = async () => {
+            try {
+                const pos = await Geolocation.getCurrentPosition();
                 setULocation({
                     lat: pos.coords.latitude,
                     lng: pos.coords.longitude,
                     time: new Date()
                 });
-            });
-        }
+            } catch (error) {
+                console.error("Native location failed, falling back to browser API:", error);
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((pos) => {
+                        setULocation({
+                            lat: pos.coords.latitude,
+                            lng: pos.coords.longitude,
+                            time: new Date()
+                        });
+                    });
+                }
+            }
+        };
+
+        getInitialLocation();
     }, []);
 
     const handleFileChange = async (e) => {
-        const selectedFile = e.target.files[0];
+        const selectedFile = e.target.files ? e.target.files[0] : e;
         if (!selectedFile) return;
 
         setFile(selectedFile);
@@ -50,12 +66,11 @@ const SubmitReport = () => {
         setIsValid(false);
 
         try {
-            // Use exifr for modern, promise-based extraction
             const gps = await exifr.gps(selectedFile);
             const data = await exifr.parse(selectedFile);
 
             if (!gps || !data || !data.DateTimeOriginal) {
-                setError("No EXIF metadata found. Please upload an original photo with GPS data. If you are testing, use an image taken by your phone with GPS enabled.");
+                setError("No EXIF metadata found. For live reports, use the 'Capture Photo' button below to use your camera directly.");
                 return;
             }
 
@@ -68,6 +83,35 @@ const SubmitReport = () => {
         } catch (err) {
             console.error("EXIF Error:", err);
             setError("Failed to extract metadata. Please ensure the file is a valid image with GPS data.");
+        }
+    };
+
+    const takeNativePhoto = async () => {
+        try {
+            const image = await CapCamera.getPhoto({
+                quality: 90,
+                allowEditing: false,
+                resultType: CameraResultType.Uri,
+                source: CameraSource.Camera
+            });
+
+            // Convert Uri to File object
+            const blob = await fetch(image.webPath).then(r => r.blob());
+            const photoFile = new File([blob], `report-${Date.now()}.jpg`, { type: 'image/jpeg' });
+
+            // Set the file and trigger location refresh
+            const pos = await Geolocation.getCurrentPosition();
+            const now = new Date();
+            setULocation({ lat: pos.coords.latitude, lng: pos.coords.longitude, time: now });
+
+            // For live photos, we trust the current location immediately
+            setFile(photoFile);
+            setMetadata({ lat: pos.coords.latitude, lng: pos.coords.longitude, date: now });
+            setIsValid(true);
+            setError('');
+        } catch (error) {
+            console.error("Native camera failed:", error);
+            setError("Could not launch national camera. Please check app permissions.");
         }
     };
 
@@ -181,18 +225,30 @@ const SubmitReport = () => {
                     value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 ></textarea>
 
-                <div className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors ${isValid ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-pmc-blue'}`}>
-                    <input
-                        type="file" accept="image/*" id="fileInput" className="hidden"
-                        onChange={handleFileChange}
-                    />
-                    <label htmlFor="fileInput" className="cursor-pointer flex flex-col items-center">
-                        <Upload className={`w-12 h-12 mb-2 ${isValid ? 'text-green-500' : 'text-gray-400'}`} />
-                        <span className="font-semibold text-gray-600">
-                            {file ? file.name : 'Upload Photo (with GPS)'}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors ${isValid ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-pmc-blue'}`}>
+                        <input
+                            type="file" accept="image/*" id="fileInput" className="hidden"
+                            onChange={handleFileChange}
+                        />
+                        <label htmlFor="fileInput" className="cursor-pointer flex flex-col items-center">
+                            <Upload className={`w-8 h-8 mb-2 ${isValid ? 'text-green-500' : 'text-gray-400'}`} />
+                            <span className="font-semibold text-xs text-gray-600">
+                                {file ? 'File Selected' : 'Upload From Gallery'}
+                            </span>
+                        </label>
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={takeNativePhoto}
+                        className={`border-2 rounded-xl p-8 text-center transition-colors flex flex-col items-center justify-center ${isValid ? 'border-green-500 bg-green-50 text-green-500' : 'border-pmc-blue/40 bg-pmc-blue/5 text-pmc-blue hover:bg-pmc-blue/10 hover:border-pmc-blue'}`}
+                    >
+                        <Camera className="w-8 h-8 mb-2" />
+                        <span className="font-black text-xs uppercase tracking-widest">
+                            {isValid && file?.name?.startsWith('report-') ? 'Photo Captured' : 'Capture Live Photo'}
                         </span>
-                        <p className="text-xs text-gray-400 mt-1">Only original, recently taken photos allowed</p>
-                    </label>
+                    </button>
                 </div>
 
                 {error && (
