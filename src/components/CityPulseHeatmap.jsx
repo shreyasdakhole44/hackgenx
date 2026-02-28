@@ -106,7 +106,7 @@ const CityPulseHeatmap = ({ data: initialData = [], height = "600px" }) => {
 
     useEffect(() => {
         // Initialize Socket.io
-        socketRef.current = io('http://localhost:5000');
+        socketRef.current = io('http://localhost:5001');
 
         socketRef.current.on('connect', () => {
             console.log('🔗 Connected to CityPulse Heatmap Relay');
