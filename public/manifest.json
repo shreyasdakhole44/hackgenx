@@ -1,0 +1,18 @@
+{
+    "name": "Urban Pulse - Smart City Management",
+    "short_name": "UrbanPulse",
+    "description": "Real-time city management, grievance reporting, and impact tracking for smart municipal operations.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#0f172a",
+    "icons": [
+        {
+            "src": "pwa-icon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "orientation": "portrait"
+}
