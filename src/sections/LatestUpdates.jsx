@@ -4,7 +4,7 @@ import { ArrowRight, Bell, Calendar, ChevronRight } from 'lucide-react';
 
 const LatestUpdates = () => {
     const alerts = [
-        { category: "Recruitment", title: "Recruitment for the post of Medical Officer Class-2 (GROUP-A) in UrbanPulse.", date: "Feb 23, 2026", color: "pmc-accent" },
+        { category: "Recruitment", title: "Officer Shreyas appointed as Nodal Intelligence Head in UrbanPulse.", date: "Feb 23, 2026", color: "pmc-accent" },
         { category: "Property Tax", title: "GIS-based Property Tax mapping for year 2026-27 is now LIVE.", date: "Feb 22, 2026", color: "pmc-saffron" },
         { category: "Tenders", title: "Invitation of Tenders for UrbanPulse E-Governance platform maintenance.", date: "Feb 20, 2026", color: "pmc-blue" },
         { category: "Health", title: "Water supply update for Kothrud and Bavdhan areas for coming Thursday.", date: "Feb 18, 2026", color: "pmc-orange" }

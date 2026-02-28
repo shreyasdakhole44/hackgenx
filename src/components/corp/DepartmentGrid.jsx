@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Route, Droplets, Zap, Trash2, HeartPulse, ChevronRight, TrendingUp } from 'lucide-react';
+import { Route, Droplets, Zap, Trash2, HeartPulse, ChevronRight, TrendingUp, Building2, ShieldCheck, TreePine, Bus, GraduationCap, Flame, Globe } from 'lucide-react';
 
 const DepartmentGrid = ({ grievances = [], stats = [], onSelectDepartment, selectedDepartment }) => {
     const depts = [
@@ -37,17 +37,57 @@ const DepartmentGrid = ({ grievances = [], stats = [], onSelectDepartment, selec
             resolved: stats.find(s => s._id === 'Waste Management')?.resolved || grievances.filter(g => g.department === 'Waste Management' && g.status === 'Resolved').length
         },
         {
-            name: 'Public Safety',
+            name: 'Public Health',
             id: 'Public Health',
             icon: <HeartPulse size={20} />,
             color: 'red',
             count: stats.find(s => s._id === 'Public Health')?.count || grievances.filter(g => g.department === 'Public Health').length,
             resolved: stats.find(s => s._id === 'Public Health')?.resolved || grievances.filter(g => g.department === 'Public Health' && g.status === 'Resolved').length
         },
+        {
+            name: 'Urban Planning',
+            id: 'Planning',
+            icon: <Building2 size={20} />,
+            color: 'indigo',
+            count: stats.find(s => s._id === 'Planning')?.count || 0,
+            resolved: stats.find(s => s._id === 'Planning')?.resolved || 0
+        },
+        {
+            name: 'Fire Safety',
+            id: 'Fire',
+            icon: <Flame size={20} />,
+            color: 'orange',
+            count: stats.find(s => s._id === 'Fire')?.count || 0,
+            resolved: stats.find(s => s._id === 'Fire')?.resolved || 0
+        },
+        {
+            name: 'Education',
+            id: 'Education',
+            icon: <GraduationCap size={20} />,
+            color: 'purple',
+            count: stats.find(s => s._id === 'Education')?.count || 0,
+            resolved: stats.find(s => s._id === 'Education')?.resolved || 0
+        },
+        {
+            name: 'Environment',
+            id: 'Environment',
+            icon: <TreePine size={20} />,
+            color: 'green',
+            count: stats.find(s => s._id === 'Environment')?.count || 0,
+            resolved: stats.find(s => s._id === 'Environment')?.resolved || 0
+        },
+        {
+            name: 'Smart City Labs',
+            id: 'SmartCity',
+            icon: <Globe size={20} />,
+            color: 'pmc-accent',
+            count: stats.find(s => s._id === 'SmartCity')?.count || 0,
+            resolved: stats.find(s => s._id === 'SmartCity')?.resolved || 0
+        }
     ];
 
     return (
-        <div className="grid grid-cols-5 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-12">
             {depts.map((dept, i) => (
                 <motion.div
                     key={dept.id}

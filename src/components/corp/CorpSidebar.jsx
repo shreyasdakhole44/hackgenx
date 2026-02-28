@@ -29,7 +29,7 @@ const CorpSidebar = ({ activeTab, setActiveTab, role }) => {
     const filteredItems = sidebarItems.filter(item => item.roles.includes(role));
 
     return (
-        <div className="w-72 bg-white border-r border-slate-200 flex flex-col p-6 fixed h-full z-20 shadow-xl shadow-slate-200/50">
+        <div className="w-72 h-screen bg-white border-r border-slate-200 flex flex-col p-6 shadow-xl shadow-slate-200/50">
             {/* Brand */}
             <div className="flex items-center gap-3 mb-12 px-2">
                 <div className="w-10 h-10 bg-pmc-blue rounded-xl flex items-center justify-center text-white ring-4 ring-pmc-blue/5">
