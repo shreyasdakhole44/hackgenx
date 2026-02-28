@@ -2,14 +2,16 @@
 # Urban Pulse Netlify Configuration
 
 [[redirects]]
-  # This section ensures that React Router (SPA) works when you refresh the page.
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
+  # IMPORTANT: API rules MUST come first!
   # This acts as a production proxy so that '/api/...' calls reach your backend.
   from = "/api/*"
   to = "https://hackgenx-dsdj.onrender.com/api/:splat"
   status = 200
   force = true
+
+[[redirects]]
+  # This section ensures that React Router (SPA) works when you refresh the page.
+  # This MUST come after the API rules.
+  from = "/*"
+  to = "/index.html"
+  status = 200

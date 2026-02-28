@@ -104,9 +104,9 @@ const CorporationPortal = () => {
                         >
                             <div className="grid grid-cols-4 gap-6">
                                 {[
-                                    { label: 'Neural Alerts', value: filteredGrievances.filter(g => g.priorityScore > 80).length, icon: <ShieldAlert className="text-red-500" />, trend: 'CRITICAL', color: 'red' },
-                                    { label: 'Synced Nodes', value: filteredGrievances.length, icon: <CheckCircle2 className="text-green-600" />, trend: 'HEALTHY', color: 'green' },
-                                    { label: 'AI Priority Avg', value: Math.round(filteredGrievances.reduce((acc, g) => acc + (g.priorityScore || 0), 0) / (filteredGrievances.length || 1)), icon: <BrainCircuit className="text-pmc-accent" />, trend: 'STABLE', color: 'pmc-accent' },
+                                    { label: 'Neural Alerts', value: filteredGrievances.length > 0 ? filteredGrievances.filter(g => g.priorityScore > 80).length : 0, icon: <ShieldAlert className="text-red-500" />, trend: 'CRITICAL', color: 'red' },
+                                    { label: 'Synced Nodes', value: filteredGrievances.length || 0, icon: <CheckCircle2 className="text-green-600" />, trend: 'HEALTHY', color: 'green' },
+                                    { label: 'AI Priority Avg', value: filteredGrievances.length > 0 ? Math.round(filteredGrievances.reduce((acc, g) => acc + (g.priorityScore || 0), 0) / (filteredGrievances.length || 1)) : 0, icon: <BrainCircuit className="text-pmc-accent" />, trend: 'STABLE', color: 'pmc-accent' },
                                     { label: 'Latency', value: '1.2s', icon: <Clock className="text-blue-500" />, trend: 'NOMINAL', color: 'blue' },
                                 ].map((stat, i) => (
                                     <div key={i} className="bg-white border border-slate-200 p-6 rounded-[2.2rem] group hover:border-pmc-accent/30 transition-all shadow-sm hover:shadow-xl hover:shadow-slate-200/50">

@@ -68,7 +68,7 @@ const WeeklyPoll = () => {
     if (polls.length === 0) return null;
 
     const activePoll = polls[0];
-    const totalVotes = activePoll.options.reduce((acc, curr) => acc + curr.votes, 0);
+    const totalVotes = (activePoll && activePoll.options) ? activePoll.options.reduce((acc, curr) => acc + (curr.votes || 0), 0) : 0;
 
     return (
         <section className="py-24 bg-white relative overflow-hidden">
@@ -114,10 +114,10 @@ const WeeklyPoll = () => {
                                                     disabled={hasVoted || isVoting}
                                                     onClick={() => setSelectedOption(option.label)}
                                                     className={`w-full text-left p-6 rounded-2xl border-2 transition-all relative z-10 overflow-hidden ${hasVoted
-                                                            ? 'border-slate-100 cursor-default'
-                                                            : isSelected
-                                                                ? 'border-pmc-accent bg-pmc-accent/5'
-                                                                : 'border-slate-50 hover:border-pmc-blue/10 bg-slate-50/50 hover:bg-white'
+                                                        ? 'border-slate-100 cursor-default'
+                                                        : isSelected
+                                                            ? 'border-pmc-accent bg-pmc-accent/5'
+                                                            : 'border-slate-50 hover:border-pmc-blue/10 bg-slate-50/50 hover:bg-white'
                                                         }`}
                                                 >
                                                     {hasVoted && (
