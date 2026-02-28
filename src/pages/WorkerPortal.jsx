@@ -195,9 +195,24 @@ const WorkerPortal = () => {
 
     const sendEmergencyAlert = () => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
+            navigator.geolocation.getCurrentPosition(async (position) => {
                 const { latitude, longitude } = position.coords;
                 const body = `EMERGENCY SOS ALERT: \n\nWorker: ${workerInfo.name} (${workerInfo.id})\nFamily Contact: ${emergencyContacts.name} (${emergencyContacts.relation})\nLocation: https://www.google.com/maps?q=${latitude},${longitude}\n\nURGENT ASSISTANCE REQUIRED.`;
+
+                // 1. Log to Database for Admin/Corporation Portal
+                try {
+                    await axios.post('/api/emergency', {
+                        type: 'Women Emergency', // Sending as high-priority women safety type for immediate response
+                        description: `Worker ${workerInfo.name} triggered SOS. Location: ${latitude}, ${longitude}`,
+                        location: `LAT: ${latitude}, LNG: ${longitude}`,
+                        officerDetails: `Worker ID: ${workerInfo.id}`,
+                        declaration: true
+                    });
+                } catch (err) {
+                    console.error("SOS Database Logging Failed:", err);
+                }
+
+                // 2. Fallback Email/SMS
                 window.location.href = `mailto:emergency-contacts@city.gov,${emergencyContacts.phone.replace(/ /g, '')}@sms.gateway?subject=SOS: ${workerInfo.name} IN DANGER&body=${encodeURIComponent(body)}`;
                 alert("DISTRESS SIGNAL DEPLOYED to Government Response Team and " + emergencyContacts.name);
             });

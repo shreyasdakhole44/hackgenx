@@ -247,10 +247,157 @@ const CorporationPortal = () => {
                         </motion.div>
                     )}
 
+                    {activeTab === 'DEPARTMENTS' && (
+                        <motion.div
+                            key="departments"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 20 }}
+                            className="space-y-8 pb-32"
+                        >
+                            <div className="flex items-center justify-between mb-8">
+                                <div>
+                                    <h2 className="text-4xl font-black text-slate-800 tracking-tighter uppercase">Municipal Nodes</h2>
+                                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">Departmental Performance & Resource Distribution</p>
+                                </div>
+                            </div>
+                            <DepartmentGrid
+                                grievances={grievances}
+                                stats={stats}
+                                onSelectDepartment={setSelectedDepartment}
+                                selectedDepartment={selectedDepartment}
+                            />
+                            {selectedDepartment && (
+                                <div className="bg-white border border-slate-200 rounded-[2.5rem] p-10">
+                                    <h3 className="text-xl font-black mb-6 text-pmc-blue tracking-tight uppercase">{selectedDepartment} Queue</h3>
+                                    <GrievanceTable
+                                        grievances={filteredGrievances}
+                                        isOffline={offline}
+                                        role={userRole}
+                                        onSolve={handleSolveGrievance}
+                                    />
+                                </div>
+                            )}
+                        </motion.div>
+                    )}
+
+                    {activeTab === 'IMPACT' && (
+                        <motion.div
+                            key="impact"
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.98 }}
+                            className="pb-32"
+                        >
+                            <div className="mb-10">
+                                <h2 className="text-4xl font-black text-slate-800 tracking-tighter uppercase">Citizen Impact Analytics</h2>
+                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">Community Trust Metrics & Engagement Velocity</p>
+                            </div>
+                            <ImpactDashboard />
+                        </motion.div>
+                    )}
+
                     {activeTab === 'EMERGENCY' && <EmergencyManager />}
+
+                    {activeTab === 'SETTINGS' && <ControlCenter />}
                 </AnimatePresence>
             </div>
         </div>
+    );
+};
+
+// Control Center / Settings Component
+const ControlCenter = () => {
+    return (
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-10 pb-32">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-8">
+                <div>
+                    <h2 className="text-4xl font-black text-slate-800 tracking-tighter uppercase">Neural Control Center</h2>
+                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">System Protocols & Distributed Node Configuration</p>
+                </div>
+                <div className="flex gap-4">
+                    <button className="px-6 py-3 bg-pmc-blue text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-pmc-accent transition-all shadow-lg">Save Config</button>
+                    <button className="px-6 py-3 bg-red-50 text-red-600 border border-red-100 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">Reboot Core</button>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="md:col-span-2 space-y-8">
+                    <div className="bg-white border border-slate-200 rounded-4xl p-8 shadow-sm">
+                        <h3 className="text-lg font-black text-slate-800 mb-8 uppercase tracking-tight">Active API Nodes</h3>
+                        <div className="space-y-4">
+                            {[
+                                { name: 'Main Backend Cluster', status: 'Online', latency: '24ms', load: '12%' },
+                                { name: 'AI Analytics Gateway', status: 'Online', latency: '142ms', load: '45%' },
+                                { name: 'Grievance Socket Relay', status: 'Online', latency: '8ms', load: '8%' },
+                                { name: 'Database Replication Hub', status: 'Online', latency: '2ms', load: '4%' },
+                            ].map((node, i) => (
+                                <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-slate-100 group hover:border-pmc-accent/30 transition-all">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                                        <span className="font-bold text-sm text-slate-700">{node.name}</span>
+                                    </div>
+                                    <div className="flex items-center gap-8">
+                                        <div className="text-right">
+                                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Latency</p>
+                                            <p className="text-xs font-black text-slate-800">{node.latency}</p>
+                                        </div>
+                                        <div className="text-right w-16">
+                                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Load</p>
+                                            <p className="text-xs font-black text-slate-800">{node.load}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="bg-slate-900 border border-white/5 rounded-4xl p-10 text-white shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-8 opacity-10"><BrainCircuit size={120} /></div>
+                        <h3 className="text-xl font-black mb-6 uppercase tracking-tight relative z-10">System Audit Logs</h3>
+                        <div className="space-y-4 font-mono text-[10px] text-white/40 relative z-10">
+                            <p><span className="text-green-500">[OK]</span> 20:45:12 - Handshake established with Groq AI Neural Bridge.</p>
+                            <p><span className="text-pmc-accent">[INFO]</span> 20:46:01 - Sector 4 Priority Flux detected. Re-routing engineer nodes.</p>
+                            <p><span className="text-green-500">[OK]</span> 20:47:15 - Monthly credit ledger reconciled for 1,240 active nodes.</p>
+                            <p><span className="text-yellow-500">[WARN]</span> 20:48:33 - High latency on external maps API. Switching to fallback.</p>
+                            <p><span className="text-pmc-accent">[INFO]</span> 20:49:17 - Corporation Admin "shreyas@123" session initialized.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="space-y-8">
+                    <div className="bg-white border border-slate-200 rounded-4xl p-8 shadow-sm">
+                        <h3 className="text-md font-black text-slate-800 mb-6 uppercase tracking-tight">Security Protocol</h3>
+                        <div className="space-y-6">
+                            <div className="flex items-center justify-between">
+                                <span className="text-xs font-bold text-slate-500">2FA Enforcement</span>
+                                <div className="w-12 h-6 bg-pmc-blue rounded-full relative"><div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full" /></div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="text-xs font-bold text-slate-500">Neural Encryption</span>
+                                <div className="w-12 h-6 bg-pmc-blue rounded-full relative"><div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full" /></div>
+                            </div>
+                            <div className="flex items-center justify-between opacity-50">
+                                <span className="text-xs font-bold text-slate-500">Public API Access</span>
+                                <div className="w-12 h-6 bg-slate-200 rounded-full relative"><div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full" /></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-pmc-blue rounded-[2.5rem] p-8 text-white relative overflow-hidden group">
+                        <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/10 blur-3xl rounded-full" />
+                        <Zap size={32} className="text-pmc-accent mb-6" />
+                        <h4 className="text-lg font-black mb-2 uppercase">Neural Health</h4>
+                        <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest leading-relaxed">The city brain is functioning within nominal parameters (Efficiency: 96.4%).</p>
+                        <div className="mt-8 flex gap-2">
+                            <div className="h-1 flex-1 bg-white/20 rounded-full overflow-hidden"><div className="h-full w-4/5 bg-pmc-accent" /></div>
+                            <div className="h-1 flex-1 bg-white/20 rounded-full overflow-hidden"><div className="h-full w-full bg-pmc-accent" /></div>
+                            <div className="h-1 flex-1 bg-white/20 rounded-full overflow-hidden"><div className="h-full w-2/5 bg-pmc-accent" /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </motion.div>
     );
 };
 
