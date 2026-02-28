@@ -61,7 +61,7 @@ const CorpHeader = ({ activeTab, userRole, setUserRole, isOffline }) => {
                 {/* Profile */}
                 <div className="flex items-center gap-4 pl-6 border-l border-slate-200">
                     <div className="text-right">
-                        <p className="text-sm font-black text-pmc-blue">Officer Raj</p>
+                        <p className="text-sm font-black text-pmc-blue">Officer Shreyas</p>
                         <div className="flex items-center gap-1.5 justify-end">
                             <div className="w-1.5 h-1.5 rounded-full bg-pmc-accent"></div>
                             <p className="text-[9px] uppercase font-black text-pmc-accent tracking-widest">{userRole}</p>
