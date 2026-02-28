@@ -416,7 +416,7 @@ export const reviewResolution = async (req, res) => {
                     await civicCredits.save();
 
                     // --- NEW: Badge & Reward Logic ---
-                    await handleCitizenRewards(user, grievance.grievanceId);
+                    handleCitizenRewards(user, grievance.grievanceId);
                 }
             }
             // ----------------------------------------------

@@ -22,6 +22,12 @@ const generateCoupon = () => {
  * @param {string} badgeName 
  */
 export const sendRewardEmail = async (citizenName, citizenEmail, badgeName) => {
+    // Fail fast if credentials missing
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+        console.log(`[SKIPPED] Reward Email for ${citizenName} - Credentials missing in .env`);
+        return { success: false, message: "Email configuration missing" };
+    }
+
     try {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
