@@ -278,8 +278,8 @@ const WorkerPortal = () => {
                 )}
             </AnimatePresence>
 
-            {/* Tactical Sidebar */}
-            <aside className={`fixed inset-y-0 left-0 z-101 transform transition-transform duration-300 lg:translate-x-0 lg:static w-80 bg-slate-900 border-r border-white/5 flex flex-col p-6 h-full ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+            {/* Tactical Sidebar - Drawer on mobile, Static on desktop */}
+            <aside className={`fixed lg:static inset-y-0 left-0 z-101 transform transition-transform duration-300 ease-in-out w-80 bg-slate-900 border-r border-white/5 flex flex-col p-6 h-screen ${isSidebarOpen ? 'translate-x-0 shadow-2xl shadow-pmc-blue/10' : '-translate-x-full'} lg:translate-x-0`}>
                 <div className="absolute inset-0 bg-linear-to-b from-pmc-blue/5 to-transparent pointer-events-none" />
 
                 <div className="flex items-center gap-4 mb-16 relative z-10 px-2">

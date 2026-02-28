@@ -99,7 +99,8 @@ const CorporationPortal = () => {
                 )}
             </AnimatePresence>
 
-            <div className={`fixed inset-y-0 left-0 z-40 transform transition-transform duration-300 lg:translate-x-0 lg:static ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+            {/* System Sidebar - Drawer on mobile, Static on desktop */}
+            <aside className={`fixed lg:static inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out w-72 bg-white border-r border-slate-200 flex flex-col h-screen ${isSidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full shadow-none'} lg:translate-x-0`}>
                 <CorpSidebar
                     activeTab={activeTab}
                     setActiveTab={(tab) => {
@@ -108,7 +109,7 @@ const CorporationPortal = () => {
                     }}
                     role={userRole}
                 />
-            </div>
+            </aside>
 
             <div className="flex-1 h-screen overflow-y-auto custom-scrollbar bg-pmc-bg">
                 <div className="p-4 md:p-10">
